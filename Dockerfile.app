@@ -1,11 +1,11 @@
 FROM golang:1.22.2
 
-WORKDIR /app # <--- нормальное название
+WORKDIR /app 
 
 COPY . .
 
 RUN go mod download
-RUN go build -o app ./cmd # <--- билд ./cmd
+RUN go build -o app ./cmd 
 
 EXPOSE 8080
-CMD ["./app"] # <--- запуск приложения
+CMD ["./app"] 

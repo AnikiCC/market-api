@@ -4,10 +4,10 @@ services:
     container_name: market_db
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: anikiqq
-      POSTGRES_DB: Market
+      POSTGRES_PASSWORD: postgres  
+      POSTGRES_DB: DB
     healthcheck:
-      test: pg_isready -U postgres -d Market
+      test: pg_isready -U postgres -d DB
       interval: 3s 
       timeout: 2s 
       retries: 2  
@@ -21,7 +21,7 @@ services:
     image: dpage/pgadmin4:8.8
     container_name: pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: anikicg11@gmail.com
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
       - "4444:80"
@@ -47,8 +47,8 @@ services:
     restart: unless-stopped
     environment:
       DB_USER: postgres
-      DB_PASSWORD: anikiqq
-      DB_NAME: Market
+      DB_PASSWORD: postgres
+      DB_NAME: DB
       DB_HOST: postgres
     ports:
       - "8080:8080"

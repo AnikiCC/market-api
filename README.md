@@ -1,44 +1,51 @@
-# Summary
+# Description
 
-Backend for a market platform
+This project is a REST API server for a trading platform, built to manage users, items, and deals. The API supports CRUD operations and handles authentication with JWT tokens.
 
-## Description
-
-In this project, I implemented a REST API server for the trading platform. This server is designed to manage users, products, and transactions. The API allows you to perform create, read, update and delete (CRUD) operations for users and items, and also handles authentication using JWT tokens.
-
-### Features
+## Features
 
 - **User Management**: Handle user registration, authentication, and profile management.
 - **Item Listings**: CRUD operations for items in the market.
 - **Deal Processing**: Manage deals between users.
 - **Authentication**: Secure endpoints using JWT tokens.
 
-### Why These Technologies?
+## Technology Stack
 
-#### Go
+### Go
 
-I selected Go for its exceptional performance, uncomplicated syntax, and robust concurrency model. Its static typing and efficient memory management make it an ideal choice for high-performance and scalable web applications.
+The entire application is written in Go, chosen for its efficiency and simplicity in building scalable web services.
 
-#### PostgreSQL
+- **Application Structure**: The main application setup is in `main.go`, which initializes the environment, database connection, and the Echo server.
+- **Routing and Middleware**: Utilizes Echo for HTTP routing and middleware management.
 
-PostgreSQL, an industry-leading relational database, stands out for its reliability, scalability, and advanced features like ACID compliance. Free and open-source with an active community, PostgreSQL also supports horizontal scaling through tools like Citus.
+### PostgreSQL
 
-#### Docker
+Utilized for data persistence, PostgreSQL is a powerful and reliable database system.
 
-Docker is utilized for containerization, ensuring consistent application behavior across diverse environments. Its widespread adoption and comprehensive ecosystem make Docker a reliable choice for application development and deployment. Alternatives like Podman have limitations, such as dependencies on systemd, and are less widely adopted.
+- **Database Interaction**: `sqlx` is used to simplify database interactions and maintain queries efficiently.
+- **Repository Pattern**: Implements repositories for each entity to handle database operations.
 
-#### sqlx
+### Docker
 
-I chose to use SQLx for my database interactions, as it strikes a harmonious balance between the raw power of SQL and the conveniences offered by an ORM (Object-Relational Mapping).
-SQLx allows me to write direct SQL queries, while providing additional features such as support for named queries and the ability to scan the results into Go structs. This combination of flexibility and performance is enhanced by Go's static analysis, which helps ensure safer code.
+Containerization ensures consistent environments across development and production.
 
-#### Echo
+- **Docker Compose**: Manages multiple services like the Go app, PostgreSQL, and pgAdmin. Configuration is provided in `docker-compose.yml`.
+- **Service Isolation**: Each service runs in its container, making it easier to manage dependencies and configurations.
 
-Echo is a powerful and flexible web framework written in Go. It is designed to be simple and fast, making it ideal for creating high-performance web applications. Echo provides built-in support for common web development tasks, such as logging and error handling.
+### Echo
 
-#### JSON Web Tokens (JWT)
+Used for routing and middleware, Echo provides a robust foundation for handling HTTP requests.
 
-JSON Web Tokens are used to securely transmit data between parties. They are used in this project for authentication and authorization, providing a safe way to verify user identity and control access.
+- **Routing**: Defined in `routes` package, which initializes routes for user, item, and deal management.
+- **Middleware**: Includes logging and recovery middleware for better error handling and request logging.
+
+### JSON Web Tokens (JWT)
+
+JWTs are used to secure endpoints and manage authentication through stateless sessions.
+
+- **Token Generation**: JWT tokens are generated and validated in `middlewares/jwt.go`.
+- **Authentication Middleware**: Ensures that requests to protected endpoints include a valid token.
+
 
 ## Quick start
 
