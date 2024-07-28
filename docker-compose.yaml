@@ -1,0 +1,62 @@
+services:
+  postgres:
+    image: postgres:12.19-alpine3.20
+    container_name: market_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: anikiqq
+      POSTGRES_DB: Market
+    healthcheck:
+      test: pg_isready -U postgres -d Market
+      interval: 3s 
+      timeout: 2s 
+      retries: 2  
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - database-net
+  pgadmin:
+    image: dpage/pgadmin4:8.8
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: anikicg11@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "4444:80"
+    depends_on:
+      - postgres
+    networks:
+      - database-net
+  migrate:
+    build: .
+    container_name: migrate
+    volumes:
+      - ./internal/database/migrations:/migrations
+    depends_on:
+      postgres:
+        condition: service_healthy 
+    networks:
+      - database-net
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: market_api
+    restart: unless-stopped
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: anikiqq
+      DB_NAME: Market
+      DB_HOST: postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+    - migrate 
+    networks:
+      - database-net
+volumes:
+  db_data:
+networks:
+  database-net:
